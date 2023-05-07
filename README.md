@@ -38,6 +38,8 @@ END OF CODE TO BE CHANGED TO FIT YOUR PRODUCT CONFIGURATOR
 */
 ```
 
+Use existing code as reference for how to implement your own product configurator.
+
 ### Step 1
 
 Create a configurable product in CATIA and export all the STL models as desired according to the [CATIA-product-configurator repo](https://github.com/patrikdolsson/CATIA-product-configurator). Then replace the STL folder with the one generated from your product configurator using CATIA.
@@ -64,7 +66,7 @@ Due to the way WebGL handles interaction with the environment, the orientation o
 
 The default orientation of the webgl coordinate system is presented in the following figure
 
-![webgl coordinate system orientation](readme-images/coordinate_systems_right_handed.png)¨
+![webgl coordinate system orientation](readme-images/coordinate_systems_right_handed.png)
 
 Any desired orientation can be achieved by using [Tait-Bryan angles](https://en.wikipedia.org/wiki/Euler_angles#Tait%E2%80%93Bryan_angles) (with convention x-y'-z'' intrinsic rotations) or multiple steps of rotations in order.
 
