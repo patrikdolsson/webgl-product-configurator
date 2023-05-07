@@ -12,7 +12,7 @@ The repo contains an example to make sure that you have everything up and runnin
 
 How to run the example:
 
--   Make sure your machine has node.js installed (You can install node.js using [](https://nodejs.org/en/download))
+-   Make sure your machine has node.js installed (You can install node.js from [https://nodejs.org/en/download](https://nodejs.org/en/download))
 -   Download/clone this repo to a folder on your machine, or import this repo to your own repo
 -   Open repo in IDE
 -   Make sure your machine has Webpack installed for example by typing in `npm install --save-dev webpack` in the IDE terminal
