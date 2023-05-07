@@ -22,12 +22,6 @@ How to run the example:
 
 ## How to implement your own product configurator
 
-### Step 1
-
-Create a configurable product in CATIA and export all the STL models as desired according to the [CATIA-product-configurator repo](https://github.com/patrikdolsson/CATIA-product-configurator). Then replace the STL folder with the one generated from your product configurator using CATIA.
-
-### Step 2
-
 Anywhere marked with the following will mark areas where code can be modified to fit an arbitrary implementation of the WebGL product configurator
 
 ```
@@ -44,6 +38,38 @@ END OF CODE TO BE CHANGED TO FIT YOUR PRODUCT CONFIGURATOR
 */
 ```
 
-![webgl coordinate system orientation](readme-images/coordinate_systems_right_handed.png)
+### Step 1
+
+Create a configurable product in CATIA and export all the STL models as desired according to the [CATIA-product-configurator repo](https://github.com/patrikdolsson/CATIA-product-configurator). Then replace the STL folder with the one generated from your product configurator using CATIA.
+
+### Step 2 (optional)
+
+In World.js, Set which, if any, of your parts should be excluded from the gui configuration control. Also set which, if any, of the configuration parameters should be excluded from the gui configuration control.
+
+### Step 3
+
+Build the product part by part in a similar way that the product is built in the CATIA product configurator. Each part is added one by one. The position is set by choosing a placement point according to the respective CATIA part and placing it in coincident with a coordinate. This coordinate can be chosen from an output point according to the respective CATIA part. Rotations are added as needed.
+
+### Step 4 (optional)
+
+Filter out reachable stl models from the gui configuration control if desired according to the example in Reasources.js
+
+### Step 5
+
+Test the product configurator by running `npm run dev` in the IDE terminal
+
+### Step 6 (optional)
+
+Due to the way WebGL handles interaction with the environment, the orientation of the coordinate system in relation to the CATIA part matters and it's possible you might need an adjustment. This is done by what is called initialRotations in Product.js.
+
+The default orientation of the webgl coordinate system is presented in the following figure
+
+![webgl coordinate system orientation](readme-images/coordinate_systems_right_handed.png)¨
+
+Any desired orientation can be achieved by using [Tait-Bryan angles](https://en.wikipedia.org/wiki/Euler_angles#Tait%E2%80%93Bryan_angles) (with convention x-y'-z'' intrinsic rotations) or multiple steps of rotations in order.
+
+### Step 7 (optional)
+
+Adjust the scale as needed to make the product fit in the window appropriately when initializing the product configurator. the scale can be found in World.js
 
 ## Brief descriptions of all the classes
