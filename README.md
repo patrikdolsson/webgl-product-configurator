@@ -4,7 +4,7 @@ Welcome to the WebGL Product Configurator template repo! This WebGL product conf
 
 This repo intends to provide the code needed to create a product configurator in WebGL for any customizable product created in a similar way as provided by the [CATIA-product-configurator repo](https://github.com/patrikdolsson/CATIA-product-configurator). The [CATIA-product-configurator repo](https://github.com/patrikdolsson/CATIA-product-configurator) also serves as a template for exporting the STL files and STLinfo.json which will be an assumed input to this WebGL product configurator. The WebGL product configurator implementation uses THREE.js with a gui from dat.gui. The provided code base uses STL models as the 3D mesh format, but can be repurposed to use gltf models (the more native 3D mesh format for THREE.js).
 
-A [startup guide](#-Getting-Started), a [step by step guide to implement your own product configurator](#-How-to-implement-your-own-product-configurator) and [brief descriptions for all classes included in this template](#-Brief-descriptions-of-all-the-classes) will follow.
+A [startup guide](#getting-started), a [step by step guide to implement your own product configurator](#how-to-implement-your-own-product-configurator) and [brief descriptions for all classes included in this template](#brief-descriptions-of-all-the-classes) will follow.
 
 ## Getting Started
 
