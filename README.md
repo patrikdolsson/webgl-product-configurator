@@ -6,6 +6,8 @@ This repo intends to provide the code needed to create a product configurator in
 
 A [startup guide](#getting-started), a [step by step guide to implement your own product configurator](#how-to-implement-your-own-product-configurator) and [brief descriptions for all classes included in this template](#brief-descriptions-of-all-the-classes) will follow.
 
+Keep in mind that the example is purely for illustrative purposes of the functionality of this approach. Realism of the product is not the aim of this repo.
+
 ## Getting started
 
 The repo contains an example to make sure that you have everything up and running before attempting to implement your own product configurator.
