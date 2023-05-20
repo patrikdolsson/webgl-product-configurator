@@ -44,30 +44,30 @@ export default class World {
         **********************************************************
         */
 
-        // Infer the initial values for GUITypes, types and parameters from the guiArray
-        const guiArray = this.resources.guiArray;
-        for (const basePartKey of Object.keys(guiArray)) {
+        // Infer the initial values for GUITypes, types and parameters from the guiSetup
+        const guiSetup = this.resources.guiSetup;
+        for (const basePartKey of Object.keys(guiSetup)) {
             if (!this.GUIFoldersExclude.includes(basePartKey)) {
                 // Keys of the GUITypes are the readable names for the base parts, and the values are the same but with the added " Type". The main purpose for GUITypes is to act as the identifier of the current type of base part in use.
                 this.GUITypes[this.readableNames[basePartKey]] = this.readableNames[basePartKey] + " Type";
                 // Types represent the current type in use for each base part.
-                this.types[this.readableNames[basePartKey] + " Type"] = Object.keys(guiArray[basePartKey])[0];
+                this.types[this.readableNames[basePartKey] + " Type"] = Object.keys(guiSetup[basePartKey])[0];
 
                 // Selects the first possible value available for each parameter
-                for (const parameter of Object.keys(guiArray[basePartKey][Object.keys(guiArray[basePartKey])[0]].parameters)) {
+                for (const parameter of Object.keys(guiSetup[basePartKey][Object.keys(guiSetup[basePartKey])[0]].parameters)) {
                     if (!(this.readableNames[parameter] in this.parameters)) {
                         this.parameters[this.readableNames[parameter]] =
-                            guiArray[basePartKey][Object.keys(guiArray[basePartKey])[0]].parameters[parameter][0];
+                            guiSetup[basePartKey][Object.keys(guiSetup[basePartKey])[0]].parameters[parameter][0];
                     }
                 }
 
                 // Selects the .default value for each GUIControlSlidingParameter
                 for (const parameter of Object.keys(
-                    guiArray[basePartKey][Object.keys(guiArray[basePartKey])[0]].GUIControlSlidingParameters
+                    guiSetup[basePartKey][Object.keys(guiSetup[basePartKey])[0]].GUIControlSlidingParameters
                 )) {
                     if (!(this.readableNames[parameter] in this.parameters)) {
                         this.parameters[this.readableNames[parameter]] =
-                            guiArray[basePartKey][Object.keys(guiArray[basePartKey])[0]].GUIControlSlidingParameters[
+                            guiSetup[basePartKey][Object.keys(guiSetup[basePartKey])[0]].GUIControlSlidingParameters[
                                 parameter
                             ].default;
                     }
@@ -103,7 +103,7 @@ export default class World {
         });
     }
 
-    // Create the slider gui control based on the guiArray
+    // Create the slider gui control based on the guiSetup
     createSliderGUI() {
         this.experience.createNewGUI();
         this.GUI = this.experience.GUI;
@@ -111,41 +111,41 @@ export default class World {
         if (this.GUI.active) {
             this.addGUISettingFolder("Slider");
 
-            const guiArray = this.resources.guiArray;
-            for (const basePartKey of Object.keys(guiArray)) {
+            const guiSetup = this.resources.guiSetup;
+            for (const basePartKey of Object.keys(guiSetup)) {
                 if (!this.GUIFoldersExclude.includes(basePartKey)) {
                     this["GUIFolder" + basePartKey] = this.GUI.ui.addFolder(this.readableNames[basePartKey]);
                     for (const parameterKey of Object.keys(
-                        guiArray[basePartKey][this.types[this.GUITypes[this.readableNames[basePartKey]]]].parameters
+                        guiSetup[basePartKey][this.types[this.GUITypes[this.readableNames[basePartKey]]]].parameters
                     )) {
                         if (
-                            guiArray[basePartKey][this.types[this.GUITypes[this.readableNames[basePartKey]]]].parameters[
+                            guiSetup[basePartKey][this.types[this.GUITypes[this.readableNames[basePartKey]]]].parameters[
                                 parameterKey
                             ].length > 1 &&
                             !this.GUIParametersExclude.includes(this.readableNames[parameterKey]) &&
-                            guiArray[basePartKey][
+                            guiSetup[basePartKey][
                                 this.types[this.GUITypes[this.readableNames[basePartKey]]]
                             ].GUIControlParameters.includes(parameterKey)
                         ) {
                             console.log(
                                 basePartKey +
                                     " : " +
-                                    guiArray[basePartKey][this.types[this.GUITypes[this.readableNames[basePartKey]]]].parameters[
+                                    guiSetup[basePartKey][this.types[this.GUITypes[this.readableNames[basePartKey]]]].parameters[
                                         parameterKey
                                     ][0] +
                                     " - " +
-                                    guiArray[basePartKey][this.types[this.GUITypes[this.readableNames[basePartKey]]]].parameters[
+                                    guiSetup[basePartKey][this.types[this.GUITypes[this.readableNames[basePartKey]]]].parameters[
                                         parameterKey
                                     ][
-                                        guiArray[basePartKey][this.types[this.GUITypes[this.readableNames[basePartKey]]]]
+                                        guiSetup[basePartKey][this.types[this.GUITypes[this.readableNames[basePartKey]]]]
                                             .parameters[parameterKey].length - 1
                                     ]
                             );
                             console.log(
-                                guiArray[basePartKey][this.types[this.GUITypes[this.readableNames[basePartKey]]]].parameters[
+                                guiSetup[basePartKey][this.types[this.GUITypes[this.readableNames[basePartKey]]]].parameters[
                                     parameterKey
                                 ][1] -
-                                    guiArray[basePartKey][this.types[this.GUITypes[this.readableNames[basePartKey]]]].parameters[
+                                    guiSetup[basePartKey][this.types[this.GUITypes[this.readableNames[basePartKey]]]].parameters[
                                         parameterKey
                                     ][0]
                             );
@@ -153,19 +153,19 @@ export default class World {
                                 .add(
                                     this.parameters,
                                     this.readableNames[parameterKey],
-                                    guiArray[basePartKey][this.types[this.GUITypes[this.readableNames[basePartKey]]]].parameters[
+                                    guiSetup[basePartKey][this.types[this.GUITypes[this.readableNames[basePartKey]]]].parameters[
                                         parameterKey
                                     ][0],
-                                    guiArray[basePartKey][this.types[this.GUITypes[this.readableNames[basePartKey]]]].parameters[
+                                    guiSetup[basePartKey][this.types[this.GUITypes[this.readableNames[basePartKey]]]].parameters[
                                         parameterKey
                                     ][
-                                        guiArray[basePartKey][this.types[this.GUITypes[this.readableNames[basePartKey]]]]
+                                        guiSetup[basePartKey][this.types[this.GUITypes[this.readableNames[basePartKey]]]]
                                             .parameters[parameterKey].length - 1
                                     ],
-                                    guiArray[basePartKey][this.types[this.GUITypes[this.readableNames[basePartKey]]]].parameters[
+                                    guiSetup[basePartKey][this.types[this.GUITypes[this.readableNames[basePartKey]]]].parameters[
                                         parameterKey
                                     ][1] -
-                                        guiArray[basePartKey][this.types[this.GUITypes[this.readableNames[basePartKey]]]]
+                                        guiSetup[basePartKey][this.types[this.GUITypes[this.readableNames[basePartKey]]]]
                                             .parameters[parameterKey][0]
                                 )
                                 .onFinishChange(() => {
@@ -175,19 +175,19 @@ export default class World {
                         }
                     }
 
-                    this.addSliderParameter(basePartKey, guiArray);
+                    this.addSliderParameter(basePartKey, guiSetup);
 
-                    if (Object.keys(guiArray[basePartKey]).length > 1) {
+                    if (Object.keys(guiSetup[basePartKey]).length > 1) {
                         this["GUIFolder" + basePartKey].add(
                             this.types,
                             this.GUITypes[this.readableNames[basePartKey]],
-                            Object.keys(guiArray[basePartKey])
+                            Object.keys(guiSetup[basePartKey])
                         );
                         this["GUIFolder" + basePartKey].controllers[
                             this["GUIFolder" + basePartKey].controllers.length - 1
                         ].onChange(() => {
                             let currIndex = 0;
-                            for (const basePartTypeKey of Object.keys(guiArray[basePartKey])) {
+                            for (const basePartTypeKey of Object.keys(guiSetup[basePartKey])) {
                                 if (
                                     this["GUIFolder" + basePartKey].controllers[
                                         this["GUIFolder" + basePartKey].controllers.length - 1
@@ -207,7 +207,7 @@ export default class World {
         }
     }
 
-    // Create the dropdown gui control based on the guiArray
+    // Create the dropdown gui control based on the guiSetup
     createDropDownGUI() {
         this.experience.createNewGUI();
         this.GUI = this.experience.GUI;
@@ -215,19 +215,19 @@ export default class World {
         if (this.GUI.active) {
             this.addGUISettingFolder("Drop Down");
 
-            const guiArray = this.resources.guiArray;
-            for (const basePartKey of Object.keys(guiArray)) {
+            const guiSetup = this.resources.guiSetup;
+            for (const basePartKey of Object.keys(guiSetup)) {
                 if (!this.GUIFoldersExclude.includes(basePartKey)) {
                     this["GUIFolder" + basePartKey] = this.GUI.ui.addFolder(this.readableNames[basePartKey]);
                     for (const parameterKey of Object.keys(
-                        guiArray[basePartKey][this.types[this.GUITypes[this.readableNames[basePartKey]]]].parameters
+                        guiSetup[basePartKey][this.types[this.GUITypes[this.readableNames[basePartKey]]]].parameters
                     )) {
                         if (
-                            guiArray[basePartKey][this.types[this.GUITypes[this.readableNames[basePartKey]]]].parameters[
+                            guiSetup[basePartKey][this.types[this.GUITypes[this.readableNames[basePartKey]]]].parameters[
                                 parameterKey
                             ].length > 1 &&
                             !this.GUIParametersExclude.includes(parameterKey) &&
-                            guiArray[basePartKey][
+                            guiSetup[basePartKey][
                                 this.types[this.GUITypes[this.readableNames[basePartKey]]]
                             ].GUIControlParameters.includes(parameterKey)
                         ) {
@@ -235,7 +235,7 @@ export default class World {
                                 .add(
                                     this.parameters,
                                     this.readableNames[parameterKey],
-                                    guiArray[basePartKey][this.types[this.GUITypes[this.readableNames[basePartKey]]]].parameters[
+                                    guiSetup[basePartKey][this.types[this.GUITypes[this.readableNames[basePartKey]]]].parameters[
                                         parameterKey
                                     ]
                                 )
@@ -246,19 +246,19 @@ export default class World {
                         }
                     }
 
-                    this.addSliderParameter(basePartKey, guiArray);
+                    this.addSliderParameter(basePartKey, guiSetup);
 
-                    if (Object.keys(guiArray[basePartKey]).length > 1) {
+                    if (Object.keys(guiSetup[basePartKey]).length > 1) {
                         this["GUIFolder" + basePartKey].add(
                             this.types,
                             this.GUITypes[this.readableNames[basePartKey]],
-                            Object.keys(guiArray[basePartKey])
+                            Object.keys(guiSetup[basePartKey])
                         );
                         this["GUIFolder" + basePartKey].controllers[
                             this["GUIFolder" + basePartKey].controllers.length - 1
                         ].onChange(() => {
                             let currIndex = 0;
-                            for (const basePartTypeKey of Object.keys(guiArray[basePartKey])) {
+                            for (const basePartTypeKey of Object.keys(guiSetup[basePartKey])) {
                                 if (
                                     this["GUIFolder" + basePartKey].controllers[
                                         this["GUIFolder" + basePartKey].controllers.length - 1
@@ -297,21 +297,21 @@ export default class World {
     }
 
     // Define that adds the sliding parameters (found in GUIControlSlidingParameters for each part) to the gui
-    addSliderParameter(basePartKey, guiArray) {
+    addSliderParameter(basePartKey, guiSetup) {
         for (const sliderParameter of Object.keys(
-            guiArray[basePartKey][this.types[this.GUITypes[this.readableNames[basePartKey]]]].GUIControlSlidingParameters
+            guiSetup[basePartKey][this.types[this.GUITypes[this.readableNames[basePartKey]]]].GUIControlSlidingParameters
         )) {
             this["GUIFolder" + basePartKey]
                 .add(
                     this.parameters,
                     this.readableNames[sliderParameter],
-                    guiArray[basePartKey][this.types[this.GUITypes[this.readableNames[basePartKey]]]].GUIControlSlidingParameters[
+                    guiSetup[basePartKey][this.types[this.GUITypes[this.readableNames[basePartKey]]]].GUIControlSlidingParameters[
                         sliderParameter
                     ].min,
-                    guiArray[basePartKey][this.types[this.GUITypes[this.readableNames[basePartKey]]]].GUIControlSlidingParameters[
+                    guiSetup[basePartKey][this.types[this.GUITypes[this.readableNames[basePartKey]]]].GUIControlSlidingParameters[
                         sliderParameter
                     ].max,
-                    guiArray[basePartKey][this.types[this.GUITypes[this.readableNames[basePartKey]]]].GUIControlSlidingParameters[
+                    guiSetup[basePartKey][this.types[this.GUITypes[this.readableNames[basePartKey]]]].GUIControlSlidingParameters[
                         sliderParameter
                     ].step
                 )

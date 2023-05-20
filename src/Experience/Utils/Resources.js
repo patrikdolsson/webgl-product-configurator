@@ -97,19 +97,19 @@ export default class Resources extends EventEmitter {
 
     loadGUIArray() {
         // Initialize the guiArray that will help define the gui controls
-        this.guiArray = {};
+        this.guiSetup = {};
         for (const basePartKey of Object.keys(this.stlInfoJson.parts)) {
-            this.guiArray[basePartKey] = {};
+            this.guiSetup[basePartKey] = {};
             for (const basePartTypeKey of Object.keys(this.stlInfoJson.parts[basePartKey])) {
                 // initialize objects and arrays that will be used
-                this.guiArray[basePartKey][this.readableNames[basePartTypeKey]] = {};
-                this.guiArray[basePartKey][this.readableNames[basePartTypeKey]].GUIControlParameters = [];
-                this.guiArray[basePartKey][this.readableNames[basePartTypeKey]].GUIControlSlidingParameters = {};
-                this.guiArray[basePartKey][this.readableNames[basePartTypeKey]].parameters = {};
+                this.guiSetup[basePartKey][this.readableNames[basePartTypeKey]] = {};
+                this.guiSetup[basePartKey][this.readableNames[basePartTypeKey]].GUIControlParameters = [];
+                this.guiSetup[basePartKey][this.readableNames[basePartTypeKey]].GUIControlSlidingParameters = {};
+                this.guiSetup[basePartKey][this.readableNames[basePartTypeKey]].parameters = {};
 
                 // Add all of the GUIControlParameters for each basePartType to an array. This is mostly a symbolic array of which parameters should be included in the gui controls for each basePartType.
                 for (const guiControlParameter of this.stlInfoJson.parts[basePartKey][basePartTypeKey][0].GUIControlParameters) {
-                    this.guiArray[basePartKey][this.readableNames[basePartTypeKey]].GUIControlParameters.push(
+                    this.guiSetup[basePartKey][this.readableNames[basePartTypeKey]].GUIControlParameters.push(
                         guiControlParameter
                     );
                 }
@@ -118,7 +118,7 @@ export default class Resources extends EventEmitter {
                 for (const guiControlSlidingParameterKey of Object.keys(
                     this.stlInfoJson.parts[basePartKey][basePartTypeKey][0].GUIControlSlidingParameters
                 )) {
-                    this.guiArray[basePartKey][this.readableNames[basePartTypeKey]].GUIControlSlidingParameters[
+                    this.guiSetup[basePartKey][this.readableNames[basePartTypeKey]].GUIControlSlidingParameters[
                         guiControlSlidingParameterKey
                     ] =
                         this.stlInfoJson.parts[basePartKey][basePartTypeKey][0].GUIControlSlidingParameters[
@@ -128,7 +128,7 @@ export default class Resources extends EventEmitter {
 
                 // Loop through all parameters of each part in order to store all of the different values each value can assume
                 for (const parameterKey of Object.keys(this.stlInfoJson.parts[basePartKey][basePartTypeKey][0].parameters)) {
-                    this.guiArray[basePartKey][this.readableNames[basePartTypeKey]].parameters[parameterKey] = [];
+                    this.guiSetup[basePartKey][this.readableNames[basePartTypeKey]].parameters[parameterKey] = [];
                     let tempArray = [];
                     // Save all values of a single parameter for each configuration inside a temporary array (This will include a lot of duplicates)
                     for (const basePartTypeSTL in this.stlInfoJson.parts[basePartKey][basePartTypeKey]) {
@@ -137,13 +137,13 @@ export default class Resources extends EventEmitter {
                         );
                     }
                     // Filter out all of the duplicates
-                    this.guiArray[basePartKey][this.readableNames[basePartTypeKey]].parameters[parameterKey] = tempArray.filter(
+                    this.guiSetup[basePartKey][this.readableNames[basePartTypeKey]].parameters[parameterKey] = tempArray.filter(
                         (value, index, array) => array.indexOf(value) === index
                     );
                 }
             }
         }
-        console.log(this.guiArray);
+        console.log(this.guiSetup);
     }
 
     // Defines an array that contains all stl file locations for every part available according to the stl info json
