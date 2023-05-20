@@ -63,6 +63,14 @@ export default class ResourceProgress {
         document.body.appendChild(this.mainDiv);
     }
 
+    updateButton(quietSTLFileLoadOn) {
+        if (quietSTLFileLoadOn) {
+            this.button.innerHTML = "Pause";
+        } else {
+            this.button.innerHTML = "Load All Resources";
+        }
+    }
+
     updateProgress(percentage) {
         const width = Math.min(Math.max(percentage, 0), 100);
         this.progress.style.width = `${width}%`;

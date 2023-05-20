@@ -101,6 +101,10 @@ export default class World {
                 Object.keys(this.resources.loadedSTLFiles).length + "/" + this.resources.STLFilesToLoadTotal
             );
         });
+
+        this.resources.on("updateButton", () => {
+            this.experience.resourceProgressBar.updateButton(this.resources.quietSTLFileLoadOn);
+        });
     }
 
     // Create the slider gui control based on the guiSetup

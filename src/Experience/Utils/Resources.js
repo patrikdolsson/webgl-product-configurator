@@ -186,6 +186,7 @@ export default class Resources extends EventEmitter {
 
     // Defines a function that quietly loads all of the stl models to load in the STLFilesToLoad as long as the setting to do so is set to true ("this.quietSTLFileLoadOn")
     async quietSTLFileLoad() {
+        this.trigger("updateButton");
         if (!this.quietSTLFileLoadOn) {
             return;
         }
