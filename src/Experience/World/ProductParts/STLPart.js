@@ -136,8 +136,8 @@ export default class STLPart {
         // This means that the rotation matrix is applied first, initialRotation matrix second and so on. (keep in mind, order matters!)
         this.modelMatrix = this.scaleMatrix
             .clone()
-            .multiply(this.translationMatrix)
             .multiply(this.initialRotationMatrix)
+            .multiply(this.translationMatrix)
             .multiply(this.rotationMatrix);
     }
 
@@ -155,12 +155,9 @@ export default class STLPart {
         this.translationCoordinates = this.calculateTranslationCoords();
         this.outputPoints = this.calculateOutputCoords();
 
-        // Apply the initial rotation to the translation coords calculating the final translation coordinates
-        this.finalTranslationCoordinates = this.translationCoordinates.clone().applyMatrix4(this.initialRotationMatrix);
-
         // Set the position of a new Identity Matrix4 to the final translation coordinates
         let translationMatrix = new THREE.Matrix4();
-        translationMatrix.setPosition(this.finalTranslationCoordinates);
+        translationMatrix.setPosition(this.translationCoordinates);
         return translationMatrix;
     }
 
