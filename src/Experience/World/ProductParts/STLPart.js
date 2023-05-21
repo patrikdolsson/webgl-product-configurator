@@ -113,7 +113,7 @@ export default class STLPart {
 
     setMesh() {
         this.mesh = new THREE.Mesh(this.geometry, this.material);
-        // this.mesh.matrix.set(this.modelMatrix.clone());
+        //this.mesh.matrixWorld = this.modelMatrix.clone();
         this.mesh.applyMatrix4(this.modelMatrix.clone());
 
         this.mesh.receiveShadow = true;
@@ -137,9 +137,7 @@ export default class STLPart {
         this.modelMatrix = this.scaleMatrix
             .clone()
             .multiply(this.translationMatrix)
-            .clone()
             .multiply(this.initialRotationMatrix)
-            .clone()
             .multiply(this.rotationMatrix);
     }
 
@@ -199,9 +197,10 @@ export default class STLPart {
 
         const rotMatrix = new THREE.Matrix4();
 
-        // M_rotation = M_rotationZ * M_rotationY * M_rotationX.
-        // This means that the matrix first applies the rotation around X, then Y, and finally Z.
-        rotMatrix.multiply(rotMatrixZ).multiply(rotMatrixY).multiply(rotMatrixX);
+        // M_rotation = M_rotationX * M_rotationY * M_rotationZ.
+        // This means that the matrix first applies the rotation around Z, then Y, and finally X.
+        // These rotations represent the extrinsic rotation order z-y-x (or the intrinsic rotation order x-y'-z'')
+        rotMatrix.multiply(rotMatrixX).multiply(rotMatrixY).multiply(rotMatrixZ);
 
         matrix.multiply(rotMatrix);
     }
